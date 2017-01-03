@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ouyang.peter.myapp">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-sdk android:minSdkVersion="23"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-sdk android:minSdkVersion="23" />
 
     <application
         android:allowBackup="true"
@@ -16,6 +18,13 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".formInformation">
+            <intent-filter>
+                <action android:name="com.peter.ouyang.formInformationActivity" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
     </application>

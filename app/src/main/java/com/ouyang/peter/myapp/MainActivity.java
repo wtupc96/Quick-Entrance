@@ -8,6 +8,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.CookieManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -20,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String[] strs = new String[]{"选课端", "学生端", "缴费", "教务处", "出勤情况", "图书信息查询", "借阅查询", "流量查询", "网络导航"};
     private static String[] urls = new String[]{"https://cas.xjtu.edu.cn/login?service=http%3A%2F%2Fxkfw.xjtu.edu.cn%2Fxsxk%2Flogin.xk", "https://cas.xjtu.edu.cn/login?service=http%3A%2F%2Fssfw.xjtu.edu.cn%2Findex.portal", "https://cas.xjtu.edu.cn/login?service=http://card.xjtu.edu.cn:8050/Account/CASSignIn", "http://dean.xjtu.edu.cn", "http://202.117.1.152:8080/user", "http://202.117.24.14/", "http://202.117.24.14/patroninfo*chx", "http://auth.xjtu.edu.cn/default.aspx", "http://xjtu.so/"};
+    private static String url = urls[3];
 
+    private static CookieManager cookieManager;
     private myDialog myDialog = new myDialog();
     private static ListView listView;
     private static WebView webView;
@@ -31,26 +34,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        webView = (WebView) findViewById(R.id.webView);
+        setCookieManager();
+
         setWebView();
 
-        webView.loadUrl("http://dean.xjtu.edu.cn");
+        webView.loadUrl(url);
 
-        listView = (ListView) findViewById(R.id.id_lv);
         setListView();
 
     }
 
-    private void setListView() {
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strs);
-        listView.setAdapter(arrayAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                webView.loadUrl(urls[position]);
-            }
-        });
+    private void setCookieManager() {
+        cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
     }
 
     @Override
@@ -62,7 +58,24 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    private void setListView() {
+        listView = (ListView) findViewById(R.id.id_lv);
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strs);
+        listView.setAdapter(arrayAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                webView.loadUrl(url = urls[position]);
+            }
+        });
+    }
+
     private void setWebView() {
+
+        webView = (WebView) findViewById(R.id.webView);
+
         WebSettings webSettings = webView.getSettings();
 
         webSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -90,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
                 view.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+
+            }
         });
 
 
@@ -99,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 if (newProgress == 100 && !webViewFlag) {
                     myDialog.dismiss();
                     webViewFlag = true;
-                } else if(webViewFlag){
+                } else if (webViewFlag) {
                     myDialog.show(getFragmentManager(), "tag");
                     webViewFlag = false;
                 }
@@ -121,22 +140,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean menuChoice(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case 0:
                 webView.reload();
                 return true;
             case 1:
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl())));
                 return true;
+            case 2:
+                startActivity(new Intent("com.peter.ouyang.formInformationActivity"));
+                return true;
         }
         return false;
     }
 
     private void createMenu(Menu menu) {
-        MenuItem refresh = menu.add(0,0,0, "刷新");
+        MenuItem refresh = menu.add(0, 0, 0, "刷新");
         refresh.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-        MenuItem openInBrowser = menu.add(0,1,1,"在浏览器中打开");
+        MenuItem openInBrowser = menu.add(0, 1, 1, "在浏览器中打开");
         openInBrowser.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        MenuItem addInform = menu.add(1, 2, 2, "管理信息");
+        addInform.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
     }
-
 }

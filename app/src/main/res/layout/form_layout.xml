@@ -3,6 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:layout_marginLeft="30dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginTop="70dp"
     android:orientation="vertical">
 
     <TextView
@@ -11,6 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="20dp"
         android:text="请输入用户名和密码"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -27,7 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tip_username" />
+        android:layout_below="@+id/tip_username"
+        android:layout_marginBottom="20dp" />
 
     <TextView
         android:id="@+id/tip_password"
@@ -47,22 +52,61 @@
         android:ems="10"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/submitInform"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/radioGroup"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/submitInform"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="135dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="2"
+            android:text="确认" />
+
+        <Button
+            android:id="@+id/forgetInform"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="忘记密码" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/password"
-        android:text="确认" />
+        android:layout_marginLeft="30dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="数据提取测试"
-        android:id="@+id/informTest"
-        android:layout_below="@+id/submitInform"
-        android:layout_alignParentStart="true"
-        android:onClick="informTest"/>
+        <RadioButton
+            android:id="@+id/uniVerified"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:checked="true"
+            android:text="统一身份" />
 
+        <RadioButton
+            android:id="@+id/library"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:text="图书信息" />
 
+        <RadioButton
+            android:id="@+id/flow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="流量" />
+    </RadioGroup>
 </RelativeLayout>

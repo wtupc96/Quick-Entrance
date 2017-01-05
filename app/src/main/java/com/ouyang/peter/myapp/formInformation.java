@@ -46,11 +46,16 @@ public class formInformation extends AppCompatActivity {
 
     private static String usernameString;
     private static String passwordString;
-    private static int type = UNI_VERIFIED;
+    private static int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        type = UNI_VERIFIED;
+        usernameString = USERNAMEFORUNI;
+        passwordString = PASSWORDFORUNI;
+
         setContentView(R.layout.form_layout);
 
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);

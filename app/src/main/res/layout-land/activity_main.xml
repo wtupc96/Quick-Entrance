@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
@@ -9,14 +10,16 @@
         android:name="com.ouyang.peter.myapp.fragmant_left"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        tools:layout="@layout/fragment1" />
 
     <fragment
         android:id="@+id/fragment2"
         android:name="com.ouyang.peter.myapp.fragment_right"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        tools:layout="@layout/fragment2" />
 
 
 </LinearLayout>

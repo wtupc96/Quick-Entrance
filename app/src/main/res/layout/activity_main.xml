@@ -16,7 +16,8 @@
             android:id="@+id/fragment2"
             android:name="com.ouyang.peter.myapp.fragment_right"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment2" />
     </FrameLayout>
 
     <LinearLayout
@@ -31,7 +32,8 @@
             android:id="@+id/fragment1"
             android:name="com.ouyang.peter.myapp.fragmant_left"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment1" />
 
     </LinearLayout>
 </android.support.v4.widget.DrawerLayout>

@@ -1,5 +1,7 @@
 package com.ouyang.peter.myapp;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -61,21 +63,40 @@ public class MainActivity extends AppCompatActivity {
     private static int positionUrl = 3;
 
     // 进度弹框对象
-    private myDialog myDialog = new myDialog();
+    // private myDialog myDialog = new myDialog();
     // 界面控件对象
     private static ListView listView;
     private static WebView webView;
     // 标识webView装载的Progress
     private static boolean webViewFlag = true;
 
+    private static ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 设置对话框相关属性
+        setProgressDialog();
         // 设置webView相关属性
         setWebView();
         // 设置抽屉选项相关属性
         setListView();
+    }
+
+    private void setProgressDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setTitle("正在努力加载~");
+        progressDialog.setCancelable(false);
+        progressDialog.setButton(ProgressDialog.BUTTON_NEGATIVE, "取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progressDialog.dismiss();
+                webViewFlag = false;
+            }
+        });
     }
 
     private void setListView() {
@@ -182,13 +203,19 @@ public class MainActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                if (newProgress == 100 && !webViewFlag) {
-                    myDialog.dismiss();
+//                if (newProgress == 100 && !webViewFlag) {
+//                    myDialog.dismiss();
+//                    webViewFlag = true;
+//                } else if (webViewFlag) {
+//                    myDialog.show(getFragmentManager(), "tag");
+//                    webViewFlag = false;
+//                }
+                progressDialog.setProgress(newProgress);
+                if (newProgress == 100) {
+                    progressDialog.dismiss();
                     webViewFlag = true;
-                } else if (webViewFlag) {
-                    myDialog.show(getFragmentManager(), "tag");
-                    webViewFlag = false;
-                }
+                } else if (webViewFlag)
+                    progressDialog.show();
                 super.onProgressChanged(view, newProgress);
             }
         });
